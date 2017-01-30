@@ -21,6 +21,12 @@ public class GameInfoUpdater : MonoBehaviour
 
     void Update()
     {
+        if(GameManager.Instance.GameEnded)
+        {
+            infoText.text = "GAME ENDED";
+            return;
+        }
+
         if(wind != GameManager.wind
         || player1Turn != GameManager.Instance.Player1Turn)
             UpdateUIText();

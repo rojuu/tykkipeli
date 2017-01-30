@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
@@ -15,6 +16,9 @@ public class GameManager : MonoBehaviour
 
     bool player1Turn;
     public bool Player1Turn { get { return player1Turn; } }
+
+    bool gameEnded;
+    public bool GameEnded {  get { return gameEnded; } }
 
     List<Projectile> projectileList;
     List<Cannon> cannonList;
@@ -34,7 +38,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1")) Invoke("SwitchTurn", 0.2f);
+        if(gameEnded && Input.anyKeyDown)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        CheckProjectileCollisions();
     }
 
     public void GiveProjectileReference(Projectile projectile)
@@ -47,9 +55,42 @@ public class GameManager : MonoBehaviour
         cannonList.Add(cannon);
     }
 
+    public void CheckProjectileCollisions()
+    {
+        for(int i = projectileList.Count - 1; i >= 0; i--)
+        {
+            print("i: " + i);
+            for (int j = cannonList.Count - 1; j >= 0; j--)
+            {
+                print("j: " + j);
+                if (Vector3.Distance(cannonList[j].transform.position, projectileList[i].transform.position) <= (0 + cannonList[j].GetRadius() + projectileList[i].GetRadius()))
+                {
+                    Destroy(projectileList[i].gameObject);
+                    Destroy(cannonList[j].gameObject);
+                    projectileList.Remove(projectileList[i]);
+                    cannonList.Remove(cannonList[j]);
+                    EndGame();
+                    return;
+                }
+            }
+
+            if(projectileList[i].transform.position.y + projectileList[i].GetRadius() <= 0)
+            {
+                Destroy(projectileList[i].gameObject);
+                projectileList.Remove(projectileList[i]);
+                SwitchTurn();
+            }
+        }
+    }
+
     void SwitchTurn()
     {
         player1Turn = !player1Turn;
         wind = Random.Range(-maxWindSpeed, maxWindSpeed);
+    }
+
+    void EndGame()
+    {
+        gameEnded = true;
     }
 }
