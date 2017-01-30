@@ -59,10 +59,8 @@ public class GameManager : MonoBehaviour
     {
         for(int i = projectileList.Count - 1; i >= 0; i--)
         {
-            print("i: " + i);
             for (int j = cannonList.Count - 1; j >= 0; j--)
             {
-                print("j: " + j);
                 if (Vector3.Distance(cannonList[j].transform.position, projectileList[i].transform.position) <= (0 + cannonList[j].GetRadius() + projectileList[i].GetRadius()))
                 {
                     Destroy(projectileList[i].gameObject);
