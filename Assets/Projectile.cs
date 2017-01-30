@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Projectile : MonoBehaviour
 {
+    public float GetRadius() { return transform.localScale.x / 2; }
+
     Vector3 velocity;
 
     void Awake()
     {
         velocity = Vector3.zero;
+    }
+
+    void Start()
+    {
+        GameManager.Instance.GiveProjectileReference(this);
     }
 
     void Update()

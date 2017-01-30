@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,10 +16,15 @@ public class GameManager : MonoBehaviour
     bool player1Turn;
     public bool Player1Turn { get { return player1Turn; } }
 
+    List<Projectile> projectileList;
+    List<Cannon> cannonList;
+
     void Awake()
     {
         if (instance == null) instance = this;
         if (instance != this) Destroy(gameObject);
+        projectileList = new List<Projectile>();
+        cannonList = new List<Cannon>();
     }
     
     void Start()
@@ -30,6 +35,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Fire1")) Invoke("SwitchTurn", 0.2f);
+    }
+
+    public void GiveProjectileReference(Projectile projectile)
+    {
+        projectileList.Add(projectile);
+    }
+
+    public void GiveCannonReference(Cannon cannon)
+    {
+        cannonList.Add(cannon);
     }
 
     void SwitchTurn()

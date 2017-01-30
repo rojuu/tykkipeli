@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
 public class Cannon : MonoBehaviour
 {
     public Transform barrelEnd;
     public Transform barrel;
     public GameObject projectilePrefab;
+
+    public bool isPlayer1() { return _isPlayer1; }
+    public float GetAngle() { return angle; }
+    public float GetForce() { return force; }
+    public float GetRadius() { return transform.localScale.x / 2; }
 
     float angle = 60;
     float force = 60;
@@ -16,14 +19,16 @@ public class Cannon : MonoBehaviour
 
     bool _isPlayer1;
 
-	void Start ()
+    void Start()
     {
         barrel.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, angle));
         _isPlayer1 = (transform.localScale.x > 0); //if x scale is positive, we must be p1
-        if(!_isPlayer1) turretTurnSpeed = -turretTurnSpeed;
+        if (!_isPlayer1) turretTurnSpeed = -turretTurnSpeed;
+
+        GameManager.Instance.GiveCannonReference(this);
     }
-	
-	void Update ()
+
+    void Update()
     {
         if (GameManager.Instance.Player1Turn != _isPlayer1) return;
 
@@ -46,8 +51,4 @@ public class Cannon : MonoBehaviour
             instance.GetComponent<Projectile>().AddForce(forceDir * force);
         }
     }
-
-    public float GetAngle() { return angle; }
-    public float GetForce() { return force; }
-    public bool isPlayer1() { return _isPlayer1; }
 }
