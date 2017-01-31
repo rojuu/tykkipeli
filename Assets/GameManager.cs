@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
         get { return instance; }
     }
 
-    public const float gravity = -20f;
+    public const float gravity = -9.8f;
     public static float wind = 0;
-    const float maxWindSpeed = 50;
+    const float maxWindSpeed = 10;
 
     bool player1Turn;
     public bool Player1Turn { get { return player1Turn; } }

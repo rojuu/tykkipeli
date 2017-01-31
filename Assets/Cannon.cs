@@ -12,10 +12,10 @@ public class Cannon : MonoBehaviour
     public float GetRadius() { return transform.localScale.x / 2; }
 
     float angle = 60;
-    float force = 60;
+    float force = 100;
 
     float turretTurnSpeed = 30;
-    float forceDialSpeed = 30;
+    float forceDialSpeed = 100;
 
     bool _isPlayer1;
 
