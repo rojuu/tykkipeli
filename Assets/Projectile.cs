@@ -54,14 +54,14 @@ public class Projectile : MonoBehaviour
         externalForce = Vector3.zero;
 
         //add wind force
-        force.x += mass * GameManager.wind;
+        //force.x += mass * GameManager.wind;
 
         //weight force
         force.y += mass * gravity;
 
         //air resistance force
         force.y += -1 * 0.5f * density * drag * area * velocity.y * velocity.y;
-        force.x += -1 * 0.5f * density * drag * area * velocity.x * velocity.x;
+        force.x += -1 * 0.5f * density * drag * area * (velocity.x - GameManager.wind) * (velocity.x - GameManager.wind);
 
         //verlet integration
         deltaPos.y = velocity.y * Time.deltaTime + (0.5f * acceleration.y * Time.deltaTime * Time.deltaTime);
